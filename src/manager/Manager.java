@@ -12,6 +12,22 @@ public class Manager {
     private final HashMap<Integer, Epic> epics = new HashMap<>();
     private final HashMap<Integer, Task> tasks = new HashMap<>();
 
+    private void updateEpicStatus(Epic epic, String newSubtaskStatus) {
+        switch (newSubtaskStatus) {
+            case Task.IN_PROGRESS_STATUS:
+                if (!epic.getStatus().equals(Task.IN_PROGRESS_STATUS)) {
+                    epic.setStatus(Task.IN_PROGRESS_STATUS);
+                }
+                break;
+            case Task.DONE_STATUS:
+                if (epic.checkStatusSubtasks(Task.DONE_STATUS)) {
+                    epic.setStatus(Task.DONE_STATUS);
+                } else {
+                    epic.setStatus(Task.IN_PROGRESS_STATUS);
+                }
+        }
+    }
+
     public Task createTask(String name, String description) {
         Task task = new Task();
         task.setId(counter++);
@@ -120,22 +136,6 @@ public class Manager {
         Epic epic = epics.get(idEpic);
         epic.updateSubtask(subtask);
         updateEpicStatus(epic, subtask.getStatus());
-    }
-
-    public void updateEpicStatus(Epic epic, String newSubtaskStatus) {
-        switch (newSubtaskStatus) {
-            case Task.IN_PROGRESS_STATUS:
-                if (!epic.getStatus().equals(Task.IN_PROGRESS_STATUS)) {
-                    epic.setStatus(Task.IN_PROGRESS_STATUS);
-                }
-                break;
-            case Task.DONE_STATUS:
-                if (epic.checkStatusSubtasks(Task.DONE_STATUS)) {
-                    epic.setStatus(Task.DONE_STATUS);
-                } else {
-                    epic.setStatus(Task.IN_PROGRESS_STATUS);
-                }
-        }
     }
 }
 
