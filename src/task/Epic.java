@@ -10,7 +10,7 @@ public class Epic extends Task {
         return subtasks;
     }
 
-    public boolean checkStatusSubtasks(String status) {
+    public boolean checkStatusSubtasks(Status status) {
         for (Subtask subtask : subtasks.values()) {
             if (!subtask.getStatus().equals(status)) {
                 return false;

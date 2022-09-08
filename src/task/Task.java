@@ -2,14 +2,11 @@ package task;
 
 public class Task {
 
-    public static final String NEW_STATUS = "NEW";
-    public static final String IN_PROGRESS_STATUS = "IN_PROGRESS";
-    public static final String DONE_STATUS = "DONE";
 
     private String name;
     private String description;
     private int id;
-    private String status;
+    private Status status;
 
     public String getName() {
         return name;
@@ -35,11 +32,11 @@ public class Task {
         this.id = id;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
