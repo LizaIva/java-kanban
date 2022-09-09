@@ -117,9 +117,6 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-//    private <T extends Task> void updateHistory(T task) {
-//    }
-
 
     @Override
     public void removeAllTasks() {

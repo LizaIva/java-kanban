@@ -2,6 +2,7 @@ package task;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Epic extends Task {
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
@@ -48,5 +49,23 @@ public class Epic extends Task {
                 ", status='" + getStatus() + '\'' +
                 ", subtasks=" + subtasks +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Epic epic = (Epic) o;
+
+        return subtasks != null ? subtasks.equals(epic.subtasks) : epic.subtasks == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (subtasks != null ? subtasks.hashCode() : 0);
+        return result;
     }
 }
