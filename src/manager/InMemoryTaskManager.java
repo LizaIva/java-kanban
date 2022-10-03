@@ -93,16 +93,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int idTask) {
         Task task = tasks.get(idTask);
-
-        System.out.println(idTask);
-        System.out.println(task);
-
         historyManger.add(task);
         return task;
     }
 
     @Override
-
     public Epic getEpicById(int idEpic) {
         Epic epic = epics.get(idEpic);
         historyManger.add(epic);
@@ -117,16 +112,18 @@ public class InMemoryTaskManager implements TaskManager {
         return subtask;
     }
 
-
     @Override
     public void removeAllTasks() {
+        for (Integer id : tasks.keySet()) {
+            historyManger.remove(id);
+        }
         tasks.clear();
     }
 
     @Override
-
     public void removeAllEpics() {
         for (Epic epic : epics.values()) {
+            historyManger.remove(epic.getId());
             epic.removeAllSubtasks();
         }
         epics.clear();
@@ -135,21 +132,29 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeAllEpicSubtasks(int idEpic) {
         Epic epic = epics.get(idEpic);
+
+        for (Integer id : epic.getSubtasks().keySet()) {
+            historyManger.remove(id);
+        }
+
         epic.removeAllSubtasks();
     }
 
     @Override
     public void removeTaskById(int idTask) {
+        historyManger.remove(idTask);
         tasks.remove(idTask);
     }
 
     @Override
     public void removeEpicById(int idEpic) {
+        historyManger.remove(idEpic);
         epics.remove(idEpic);
     }
 
     @Override
     public void removeSubtaskByIdEpic(int idEpic, int idSubtask) {
+        historyManger.remove(idSubtask);
         Epic epic = epics.get(idEpic);
         epic.removeSubtaskById(idSubtask);
     }

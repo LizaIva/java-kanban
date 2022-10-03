@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface TaskManager {
 
-
     Task createTask(String name, String description);
 
     Epic createEpic(String name, String description);
