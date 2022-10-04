@@ -7,6 +7,10 @@ import task.Task;
 
 public class Main {
     public static void main(String[] args) {
+      test();
+    }
+
+    public static void test(){
         TaskManager taskManager = Managers.getDefault();
         Task task1 = taskManager.createTask("Купить помидоры", "Выбрать в самокате");
         Task task2 = taskManager.createTask("Купить огурцы", "Зайти на рынок");
@@ -44,7 +48,6 @@ public class Main {
         taskManager.removeEpicById(epic2.getId());
         System.out.println("5________");
         System.out.println(taskManager.getHistory());
-
 
     }
 }
