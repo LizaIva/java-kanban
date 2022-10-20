@@ -8,10 +8,10 @@ import task.Task;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int counter;
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HistoryManager historyManger = Managers.getDefaultHistory();
+    protected int counter;
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HistoryManager historyManger = Managers.getDefaultHistory();
 
 
     @Override
@@ -164,6 +164,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getHistory() {
         return historyManger.getHistory();
     }
+
     private void updateEpicStatus(Epic epic, Status newSubtaskStatus) {
         switch (newSubtaskStatus) {
             case IN_PROGRESS:

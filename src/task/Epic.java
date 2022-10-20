@@ -2,13 +2,9 @@ package task;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Epic extends Task {
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    //в 3 спринте в тз в подсказках было указано "Чтобы получать разные типы задач, вы можете
-    // создать три HashMap по одной на каждый из видов задач", поэтому я выбрала данную форму хранения и планирую
-    // ее оставить
 
     public HashMap<Integer, Subtask> getSubtasks() {
         return subtasks;
@@ -46,13 +42,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Epic{" +
-                "name='" + getName() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", id=" + getId() +
-                ", status='" + getStatus() + '\'' +
-                ", subtasks=" + subtasks +
-                '}';
+        return getId() + "," + Type.EPIC.name() + "," + getName() + "," + getStatus() + "," + getDescription();
     }
 
     @Override
