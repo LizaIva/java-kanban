@@ -3,12 +3,12 @@ package task;
 import java.util.Objects;
 
 public class Task {
-
-
-    private int id;
+    protected int id;
     private String name;
     private String description;
     private Status status;
+
+    private Type type;
 
     public String getName() {
         return name;
@@ -42,14 +42,17 @@ public class Task {
         this.status = status;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
-        return "Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status='" + status + '\'' +
-                '}';
+        return id + "," + Type.TASK.name() + "," + name + "," + status + "," + description;
     }
 
     @Override

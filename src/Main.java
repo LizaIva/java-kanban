@@ -1,16 +1,20 @@
+import manager.FileBackedTasksManager;
 import manager.TaskManager;
 import manager.Managers;
 import task.Epic;
 import task.Subtask;
 import task.Task;
 
+import java.io.IOException;
+
 
 public class Main {
-    public static void main(String[] args) {
-      test();
+    public static void main(String[] args) throws IOException {
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager("/Users/elizavetaivanova/Prakticum/java-kanban/src/manager.csv");
+  fileBackedTasksManager.createTask("Уборка", "Купить моющее средство");
     }
 
-    public static void test(){
+    public static void test() throws IOException {
         TaskManager taskManager = Managers.getDefault();
         Task task1 = taskManager.createTask("Купить помидоры", "Выбрать в самокате");
         Task task2 = taskManager.createTask("Купить огурцы", "Зайти на рынок");
