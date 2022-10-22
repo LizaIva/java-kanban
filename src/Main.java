@@ -10,8 +10,6 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager("/Users/elizavetaivanova/Prakticum/java-kanban/src/manager.csv");
-  fileBackedTasksManager.createTask("Уборка", "Купить моющее средство");
     }
 
     public static void test() throws IOException {

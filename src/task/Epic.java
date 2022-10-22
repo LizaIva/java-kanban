@@ -4,6 +4,13 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class Epic extends Task {
+    public Epic(int id, Type type, String name, Status status, String description) {
+        super(id, type, name, status, description);
+    }
+
+    public Epic() {
+    }
+
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
     public HashMap<Integer, Subtask> getSubtasks() {

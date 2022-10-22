@@ -7,8 +7,20 @@ public class Task {
     private String name;
     private String description;
     private Status status;
-
     private Type type;
+
+    public Task(int id,  Type type, String name, Status status, String description) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.status = status;
+        this.description = description;
+
+
+    }
+    public Task() {
+    }
+
 
     public String getName() {
         return name;

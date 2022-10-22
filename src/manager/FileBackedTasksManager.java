@@ -3,49 +3,40 @@ package manager;
 import exception.ManagerSaveException;
 import task.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    private String pathName;
+    private final File file;
 
-    public FileBackedTasksManager(String pathName) {
-        this.pathName = pathName;
+    public FileBackedTasksManager(File file) {
+        this.file = file;
 
-        String content = null;
-        try {
-            content = Files.readString(Path.of(pathName));
+        int maxId = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            reader.readLine();
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) {
+                    line = reader.readLine();
+                    historyFromString(line);
+                    break;
+                }
+
+                Task task = fromString(line);
+
+                if (maxId < task.getId()) {
+                    maxId = task.getId();
+                }
+            }
         } catch (IOException e) {
             throw new ManagerSaveException(e);
         }
-        if (content.isEmpty()) {
-            return;
-        }
-        String[] lines = content.split("\n");
-        int maxId = 0;
-
-        for (int i = 1; i < lines.length; i++) {
-            String line = lines[i];
-            if (line.isBlank()) {
-                break;
-            }
-
-            Task task = fromString(line);
-
-            if (maxId < task.getId()) {
-                maxId = task.getId();
-            }
-        }
-
 
         counter = maxId + 1;
-
-        historyFromString(lines);
-
     }
 
     private Task fromString(String line) {
@@ -55,31 +46,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Type type = Type.valueOf(parts[1]);
         switch (type) {
             case TASK:
-                Task task = new Task();
-                task.setId(id);
-                task.setType(type);
-                task.setName(parts[2]);
-                task.setStatus(Status.valueOf(parts[3]));
-                task.setDescription(parts[4]);
+                Task task = new Task(id, type, parts[2], Status.valueOf(parts[3]), parts[4]);
                 super.updateTask(task);
                 return task;
             case EPIC:
-                Epic epic = new Epic();
-                epic.setId(id);
-                epic.setType(type);
-                epic.setName(parts[2]);
-                epic.setStatus(Status.valueOf(parts[3]));
-                epic.setDescription(parts[4]);
+                Epic epic = new Epic(id, type, parts[2], Status.valueOf(parts[3]), parts[4]);
                 super.updateEpic(epic);
                 return epic;
             default:
-                Subtask subtask = new Subtask();
-                subtask.setId(id);
-                subtask.setType(type);
-                subtask.setName(parts[2]);
-                subtask.setStatus(Status.valueOf(parts[3]));
-                subtask.setDescription(parts[4]);
-                subtask.setEpicId(Integer.parseInt(parts[5]));
+                Subtask subtask = new Subtask(id, type, parts[2], Status.valueOf(parts[3]), parts[4], Integer.parseInt(parts[5]));
                 super.updateSubtask(subtask.getEpicId(), subtask);
                 return subtask;
         }
@@ -109,7 +84,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private void save() {
         try {
-            try (FileWriter out = new FileWriter(pathName)) {
+            try (FileWriter out = new FileWriter(file)) {
                 out.write("id,type,name,status,description,epic\n");
 
                 for (Task task : tasks.values()) {
@@ -211,8 +186,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         save();
     }
 
-    public void historyFromString(String[] lines) {
-        List<Integer> historyIds = Managers.historyFromString(lines[lines.length - 1]);
+    public void historyFromString(String line) {
+        List<Integer> historyIds = Managers.historyFromString(line);
         for (Integer id : historyIds) {
             if (tasks.containsKey(id)) {
                 historyManger.add(tasks.get(id));
@@ -231,7 +206,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        TaskManager taskManager = Managers.loadFromFile("/Users/elizavetaivanova/Prakticum/java-kanban/src/manager.csv");
+        File file = new File("/Users/elizavetaivanova/Prakticum/java-kanban/src/manager.csv");
+        TaskManager taskManager = Managers.loadFromFile(file);
         Task task1 = taskManager.createTask("Купить помидоры", "Выбрать в самокате");
         Task task2 = taskManager.createTask("Купить огурцы", "Зайти на рынок");
         Epic epic1 = taskManager.createEpic("Приготовить обед", "Купить продукты");
@@ -252,10 +228,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         taskManager.getEpicById(epic1.getId());
         taskManager.getEpicById(epic2.getId());
 
-        taskManager.removeTaskById(task1.getId());
-
-        taskManager.removeEpicById(epic2.getId());
-
-        TaskManager taskManager2 = Managers.loadFromFile("/Users/elizavetaivanova/Prakticum/java-kanban/src/manager.csv");
+        //Создание нового FileBackedTasksManager из этого же файла
+        TaskManager taskManager2 = Managers.loadFromFile(file);
+        System.out.println(taskManager2.getHistory());
     }
 }

@@ -3,6 +3,13 @@ package task;
 public class Subtask extends Task {
     private int epicId;
 
+    public Subtask(int id, Type type, String name, Status status, String description, int epicId) {
+        super(id, type, name, status, description);
+        this.epicId = epicId;
+    }
+    public Subtask() {
+    }
+
     public int getEpicId() {
         return epicId;
     }

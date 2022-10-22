@@ -7,8 +7,8 @@ import java.util.*;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer, Node<Task>> history = new LinkedHashMap<>();
-    Node<Task> head = null;
-    Node<Task> tail = null;
+    private Node<Task> head = null;
+    private Node<Task> tail = null;
 
     @Override
     public void add(Task task) {

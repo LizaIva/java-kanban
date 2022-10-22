@@ -2,6 +2,7 @@ package manager;
 
 import task.Task;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Managers {
         return idHistory;
     }
 
-    public static FileBackedTasksManager loadFromFile(String pathName) {
-        return new FileBackedTasksManager(pathName);
+    public static FileBackedTasksManager loadFromFile(File file) {
+        return new FileBackedTasksManager(file);
     }
 }
