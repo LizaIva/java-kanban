@@ -1,11 +1,18 @@
 package task;
 
-import java.util.Collection;
-import java.util.HashMap;
+import exception.IntervalIntersectionException;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Epic extends Task {
+
+    private LocalDateTime endTime;
+
     public Epic(int id, Type type, String name, Status status, String description) {
-        super(id, type, name, status, description);
+        super(id, type, name, status, description, null, null);
+        this.endTime = foundEndTime();
     }
 
     public Epic() {
@@ -13,8 +20,14 @@ public class Epic extends Task {
 
     private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
 
+    protected Set<Subtask> sortedSubtask = new TreeSet<>(Comparator.comparing(Subtask::getStartTime));
+
     public HashMap<Integer, Subtask> getSubtasks() {
         return subtasks;
+    }
+
+    public Set<Subtask> getPrioritizedSubtasks() {
+        return sortedSubtask;
     }
 
     public boolean checkStatusSubtasks(Status status) {
@@ -26,8 +39,47 @@ public class Epic extends Task {
         return true;
     }
 
-    public Collection<Subtask> getValuesSubtasks() {
-        return subtasks.values();
+    public Duration getDuration() {
+        long allMinutes = 0;
+        for (Subtask subtask : subtasks.values()) {
+            if (subtask.getDuration() != null) {
+                allMinutes += subtask.getDuration().toMinutes();
+            }
+        }
+        return Duration.ofMinutes(allMinutes);
+    }
+
+    public LocalDateTime foundStartTime() {
+        LocalDateTime startTime = null;
+        for (Subtask subtask : subtasks.values()) {
+            if (startTime == null) {
+                startTime = subtask.getStartTime();
+            } else {
+                if (startTime.isBefore(subtask.getStartTime())) {
+                    startTime = subtask.getStartTime();
+                }
+            }
+        }
+        return startTime;
+    }
+
+    public LocalDateTime foundEndTime() {
+        LocalDateTime endTime = null;
+        for (Subtask subtask : subtasks.values()) {
+            if (endTime == null) {
+                endTime = subtask.getEndTime();
+            } else {
+                if (endTime.isAfter(subtask.getStartTime())) {
+                    endTime = subtask.getStartTime();
+                }
+            }
+        }
+        return endTime;
+    }
+
+
+    public List<Subtask> getValuesSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
     public Subtask getIdSubtaskById(int idSubtask) {
@@ -36,15 +88,32 @@ public class Epic extends Task {
 
     public void removeAllSubtasks() {
         subtasks.clear();
+
+        sortedSubtask.clear();
+
+        this.setDuration(null);
+        this.setStartTime(null);
+        this.endTime = null;
     }
 
     public void removeSubtaskById(int idSubtask) {
-        subtasks.remove(idSubtask);
-
+        Subtask removed = subtasks.remove(idSubtask);
+        if (removed != null) {
+            sortedSubtask.remove(removed);
+        }
+        this.setDuration(getDuration());
+        this.setStartTime(foundStartTime());
+        this.endTime = foundEndTime();
     }
 
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
+
+        this.setDuration(getDuration());
+        this.setStartTime(foundStartTime());
+        this.endTime = foundEndTime();
+
+        sortedSubtask.add(subtask);
     }
 
     @Override

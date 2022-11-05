@@ -38,7 +38,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node<Task> currentNode = history.get(id);
 
         if (currentNode != null) {
-            if (currentNode.getPrev() == null) {
+            if (currentNode.getPrev() == null && currentNode.getNext() == null) {
+                head = null;
+                tail = null;
+            } else if (currentNode.getPrev() == null) {
                 Node<Task> next = currentNode.getNext();
                 next.setPrev(null);
                 head = next;

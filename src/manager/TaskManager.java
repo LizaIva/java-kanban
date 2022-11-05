@@ -4,22 +4,27 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
-import java.util.Collection;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
-    Task createTask(String name, String description);
+    Task createTask(String name, String description, Duration duration, LocalDateTime startTime);
 
     Epic createEpic(String name, String description);
 
-    Subtask createSubtask(int epicId, String name, String description);
+    Subtask createSubtask(int epicId, String name, String description, Duration duration, LocalDateTime startTime);
 
-    Collection<Task> getTasks();
+    List<Task> getTasks();
 
-    Collection<Epic> getEpics();
+    List<Epic> getEpics();
 
-    Collection<Subtask> getSubtasks(int epicId);
+    List<Subtask> getSubtasks(int epicId);
+
+    Set<Task> getPrioritizedTasks();
+
 
     Task getTaskById(int taskId);
 
