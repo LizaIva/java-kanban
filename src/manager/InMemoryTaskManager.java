@@ -59,6 +59,9 @@ public class InMemoryTaskManager implements TaskManager {
                                  Duration duration, LocalDateTime startTime) {
 
         Epic epic = epics.get(epicId);
+        if (epic==null){
+            return null;
+        }
         HashMap<Integer, Subtask> subtasks = epic.getSubtasks();
 
         Subtask subtask = new Subtask();
