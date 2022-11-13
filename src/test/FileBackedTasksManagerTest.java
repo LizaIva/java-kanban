@@ -20,7 +20,7 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksM
 
     @BeforeEach
     void setUp() {
-        File file = new File("/Users/elizavetaivanova/Prakticum/java-kanban/src/test/test_manager.csv");
+        String file = "/Users/elizavetaivanova/Prakticum/java-kanban/src/test/test_manager.csv";
         taskManager = Managers.loadFromFile(file);
     }
 
@@ -45,8 +45,8 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksM
                 LocalDateTime.of(2022, 10, 11, 14, 12));
         Epic epic1 = taskManager.createEpic("Test addNewEpic1", "Test addNewEpic description1");
 
-        File file = new File("/Users/elizavetaivanova/Prakticum/java-kanban/src/test/test_manager.csv");
-        TaskManager taskManager = Managers.loadFromFile(file);
+        String fileUrl = "/Users/elizavetaivanova/Prakticum/java-kanban/src/test/test_manager.csv";
+        TaskManager taskManager = Managers.loadFromFile(fileUrl);
 
         assertEquals(1, taskManager.getTasks().size(), "Неверное считывание файла." +
                 " Обнаружены таски в пустом файле.");
@@ -78,8 +78,8 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksM
 
         taskManager.getTaskById(task.getId());
 
-        File file = new File("/Users/elizavetaivanova/Prakticum/java-kanban/src/test/test_manager.csv");
-        TaskManager taskManager = Managers.loadFromFile(file);
+        String fileUrl = "/Users/elizavetaivanova/Prakticum/java-kanban/src/test/test_manager.csv";
+        TaskManager taskManager = Managers.loadFromFile(fileUrl);
 
         assertEquals(1, taskManager.getHistory().size(), "Неверный вывод истории файле.");
     }

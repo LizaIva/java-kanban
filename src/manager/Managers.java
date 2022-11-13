@@ -35,7 +35,11 @@ public class Managers {
         return idHistory;
     }
 
-    public static FileBackedTasksManager loadFromFile(File file) {
-        return new FileBackedTasksManager(file);
+    public static FileBackedTasksManager loadFromFile(String fileUrl) {
+        return new FileBackedTasksManager(fileUrl);
+    }
+
+    public static HTTPTaskManager loadFromKVServer(String url){
+        return new HTTPTaskManager(url);
     }
 }

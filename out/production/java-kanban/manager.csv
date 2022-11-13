@@ -1,12 +1,11 @@
-id,type,name,status,description,epic
+id,type,name,status,description,duration,startTime,epic
 1,TASK,Купить помидоры,NEW,Выбрать в самокате,2,21.10.2013 12:00
 2,TASK,Купить огурцы,NEW,Зайти на рынок,4,21.10.2013 12:10
 10,TASK,Купить помидоры,NEW,Выбрать в самокате,2,21.10.2013 12:03
 11,TASK,TEEEEEST,NEW,TEEEEEST,40,21.10.2014 11:50
-3,EPIC,Приготовить обед,NEW,Купить продукты
-4,EPIC,Убраться в квартире,NEW,Успеть сделать все до четверга
-5,SUBTASK,Помыть полы,NEW,Использовать средство,4,17.10.2013 12:10,4
-6,SUBTASK,Протереть пыль,NEW,Тряпка в шкафу,4,17.10.2013 12:15,4
-7,SUBTASK,Заказать рис,NEW,Рис Басмати,4,17.10.2013 12:25,4
+16,EPIC,fghjf,NEW,ghjkjhgfdsdfg
+13,EPIC,fghjf,NEW,ghjkjhgfdsdfg
+14,EPIC,fghjf,NEW,ghjkjhgfdsdfg
+15,EPIC,fghjf,NEW,ghjkjhgfdsdfg
 
-2,1,3,4,
+2,

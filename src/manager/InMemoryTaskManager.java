@@ -59,7 +59,7 @@ public class InMemoryTaskManager implements TaskManager {
                                  Duration duration, LocalDateTime startTime) {
 
         Epic epic = epics.get(epicId);
-        if (epic==null){
+        if (epic == null) {
             return null;
         }
         HashMap<Integer, Subtask> subtasks = epic.getSubtasks();
@@ -93,28 +93,44 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Subtask> getSubtasks(int epicId) {
         Epic epic = epics.get(epicId);
+
+        if (epic == null) {
+            return null;
+        }
         return epic.getValuesSubtasks();
     }
 
     @Override
     public Task getTaskById(int taskId) {
         Task task = tasks.get(taskId);
-        historyManger.add(task);
+        if (task != null) {
+            historyManger.add(task);
+        }
         return task;
     }
 
     @Override
     public Epic getEpicById(int epicId) {
         Epic epic = epics.get(epicId);
-        historyManger.add(epic);
+        if (epic != null) {
+            historyManger.add(epic);
+        }
         return epic;
     }
 
     @Override
     public Subtask getSubtaskByIdEpic(int epicId, int subtaskId) {
         Epic epic = epics.get(epicId);
+
+        if (epic == null) {
+            return null;
+        }
+
         Subtask subtask = epic.getIdSubtaskById(subtaskId);
-        historyManger.add(subtask);
+
+        if (subtask != null) {
+            historyManger.add(subtask);
+        }
         return subtask;
     }
 

@@ -51,5 +51,4 @@ public interface TaskManager {
     void updateSubtask(int epicId, Subtask subtask);
 
     List<Task> getHistory();
-
 }

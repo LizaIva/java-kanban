@@ -12,8 +12,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private final File file;
 
-    public FileBackedTasksManager(File file) {
-        this.file = file;
+    public FileBackedTasksManager(String fileUrl) {
+        this.file = new File(fileUrl);
+
+        if (!file.isFile()) {
+            return;
+        }
 
         int maxId = 0;
 
@@ -90,7 +94,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return subtask;
     }
 
-    private void save() {
+    protected void save() {
         try {
             try (FileWriter out = new FileWriter(file)) {
                 out.write("id,type,name,status,description,duration,startTime,epic\n");
@@ -200,6 +204,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
 
         List<Integer> historyIds = Managers.historyFromString(line);
+        loadHistory(historyIds);
+    }
+
+    protected void loadHistory(List<Integer> historyIds){
+        if (historyIds==null){
+            return;
+        }
         for (Integer id : historyIds) {
             if (tasks.containsKey(id)) {
                 historyManger.add(tasks.get(id));
